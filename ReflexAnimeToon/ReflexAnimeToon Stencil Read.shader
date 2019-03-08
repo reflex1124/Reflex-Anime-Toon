@@ -8,12 +8,12 @@ Shader "Reflex Toon/Stencil/Reader"
 		_DiffuseColor("Diffuse Color", Color) = (1,1,1,1)
 		_NormalIntensity("Normal Intensity", Range( 0 , 1)) = 0.5
 		[Toggle]_ObjectShadow("Object Shadow", Float) = 1
-		_Shadow1Contrast("Shadow 1 Contrast", Range( 1 , 100)) = 100
+		_Shadow1Contrast("Shadow 1 Contrast", Range( 1 , 100)) = 10
 		_Shadow1Texture("Shadow 1 Texture", 2D) = "white" {}
 		_Shadow1Color("Shadow 1 Color", Color) = (0.8627451,0.8627451,0.8627451,1)
 		_Shadow1Place("Shadow 1 Place", Range( -1 , 1)) = 0
 		[Toggle]_Shadow2ContrastToggle("Shadow 2 Contrast Toggle", Float) = 0
-		_Shadow2Contrast("Shadow 2 Contrast", Range( 1 , 100)) = 100
+		_Shadow2Contrast("Shadow 2 Contrast", Range( 1 , 100)) = 1
 		_Shadow2Texture("Shadow 2 Texture", 2D) = "white" {}
 		_Shadow2Color("Shadow 2 Color", Color) = (0.7843137,0.7843137,0.7843137,1)
 		_Shadow2Place("Shadow 2 Place", Range( -1 , 1)) = 0.1
@@ -50,7 +50,7 @@ Shader "Reflex Toon/Stencil/Reader"
 			float outlineVar = ( (0.0 + (_OutlineWidth - 0.0) * (0.002 - 0.0) / (1.0 - 0.0)) * tex2Dlod( _OutlineMask, float4( uv_OutlineMask84_g75, 0, 0.0) ) ).r;
 			v.vertex.xyz += ( v.normal * outlineVar );
 		}
-		inline half4 LightingOutline( SurfaceOutput s, half3 lightDir, half atten ) { return half4 ( 0,0,0, 1); }
+		inline half4 LightingOutline( SurfaceOutput s, half3 lightDir, half atten ) { return half4 ( 0,0,0,1); }
 		void outlineSurf( Input i, inout SurfaceOutput o )
 		{
 			float2 uv_Diffuse = i.uv_texcoord * _Diffuse_ST.xy + _Diffuse_ST.zw;
@@ -127,7 +127,7 @@ Shader "Reflex Toon/Stencil/Reader"
 		ENDCG
 		
 
-		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" }
+		Tags{ "RenderType" = "TransparentCutout"  "Queue" = "AlphaTest+1" }
 		Cull Back
 		Stencil
 		{
@@ -404,14 +404,14 @@ Shader "Reflex Toon/Stencil/Reader"
 }
 /*ASEBEGIN
 Version=15900
-956;92;964;936;1745.855;1157.76;1;True;False
-Node;AmplifyShaderEditor.FunctionNode;134;-1764.855,-675.7598;Float;False;ReflexToonFunction;0;;75;865743dd0db312545bd2b88ae725e833;0;0;3;COLOR;0;COLOR;99;COLOR;101
-Node;AmplifyShaderEditor.RangedFloatNode;135;-1318.855,-967.76;Float;False;Property;_StencilReference;StencilReference;23;0;Create;True;0;0;True;0;3;0;0;0;0;1;FLOAT;0
+1129;92;791;936;2324.112;1359.584;1.810937;True;False
+Node;AmplifyShaderEditor.FunctionNode;134;-1764.855,-675.7598;Float;False;ReflexToonFunction;1;;75;865743dd0db312545bd2b88ae725e833;0;0;3;COLOR;0;COLOR;99;COLOR;101
 Node;AmplifyShaderEditor.OutlineNode;132;-1424.855,-544.7598;Float;False;0;True;None;0;0;Front;3;0;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-1119.913,-857.6068;Float;False;True;2;Float;ASEMaterialInspector;0;0;CustomLighting;Reflex Toon/Stencil/Reader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;0;False;-1;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0.5;True;True;0;False;Opaque;;Geometry;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;0;False;-1;True;0;True;135;255;False;-1;255;False;-1;6;False;-1;1;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;-1;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.RangedFloatNode;135;-1335.855,-802.76;Float;False;Property;_StencilReference;StencilReference;24;0;Create;True;0;0;True;0;3;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-1119.913,-857.6068;Float;False;True;2;Float;ASEMaterialInspector;0;0;CustomLighting;Reflex Toon/Stencil/Reader;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;Back;1;False;-1;3;False;-1;False;0;False;-1;0;False;-1;False;0;Masked;0.5;True;True;1;False;TransparentCutout;;AlphaTest;All;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;True;0;False;-1;True;0;True;135;255;False;-1;255;False;-1;6;False;-1;1;False;-1;0;False;-1;0;False;-1;6;False;-1;1;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;0;False;-1;0;False;-1;0;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;0;;0;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;15;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;13;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;14;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;0
 WireConnection;132;0;134;99
 WireConnection;132;1;134;101
 WireConnection;0;13;134;0
 WireConnection;0;11;132;0
 ASEEND*/
-//CHKSM=DBAF3B123110046AC23CDFCC52709EB5EE3CA2AE
+//CHKSM=4BB107A170AF97DBD5FE881881B7FC055AF0DAF3
